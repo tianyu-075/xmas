@@ -1,0 +1,70 @@
+/* src/App.css */
+body {
+  margin: 0;
+  overflow: hidden; 
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f4f8;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+.xmas-app-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.matter-scene {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* 确保 Matter.js 的 canvas 占满容器 */
+.matter-scene canvas {
+  display: block;
+  /* 确保 canvas 也能被点击，但 z-index 比按钮低 */
+  z-index: 10; 
+}
+
+.game-tip {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50; /* 在按钮和弹窗之下，在 Canvas 之上 */
+  padding: 8px 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #34495e;
+  font-size: 1.1rem;
+}
+
+.gift-glow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  pointer-events: none;
+  animation: glowPulse 1.2s infinite alternate;
+  z-index: 40;
+}
+
+@keyframes glowPulse {
+  from {
+    filter: drop-shadow(0 0 6px gold);
+    opacity: 0.7;
+  }
+  to {
+    filter: drop-shadow(0 0 16px gold);
+    opacity: 1;
+  }
+}

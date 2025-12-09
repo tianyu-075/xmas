@@ -1,0 +1,32 @@
+/* src/components/StartButton.css */
+.start-button-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none; /* 允许点击穿透到 Matter.js Canvas */
+}
+
+.start-button {
+  pointer-events: auto; /* 重新启用按钮的点击事件 */
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #e74c3c; /* 圣诞红色 */
+  color: white;
+  border: 5px solid #c0392b;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.start-button:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.start-button:active {
+  transform: scale(0.95);
+}
