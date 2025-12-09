@@ -38,9 +38,9 @@ export default function App() {
   const [giftReady, setGiftReady] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  /* ======================================================
-     ✅ Emoji / Gift Body
-  ====================================================== */
+  // =========================
+  // ✅ 创建 Emoji / Gift Body
+  // =========================
   const createEmojiBody = (emoji, x, y, r, isGift = false) => {
     const code = emoji.codePointAt(0).toString(16);
     return Bodies.circle(x, y, r, {
@@ -58,9 +58,9 @@ export default function App() {
     });
   };
 
-  /* ======================================================
-     ✅ Matter 初始化（可反复刷新 Start）
-  ====================================================== */
+  // =========================
+  // ✅ 初始化 Matter
+  // =========================
   const initMatter = useCallback(() => {
     if (renderRef.current) {
       Render.stop(renderRef.current);
@@ -109,14 +109,11 @@ export default function App() {
     runnerRef.current = Runner.run(Runner.create(), engine);
   }, []);
 
-  /* ======================================================
-     ✅ Gift 可点击判断（严格版）
-     1️⃣ 没被任何可动 emoji 覆盖
-     2️⃣ 速度 ≈ 0（真正停住）
-  ====================================================== */
+  // =========================
+  // ✅ 判断 Gift 是否可点击
+  // =========================
   const isGiftReady = (engine, gift) => {
     const bodies = Composite.allBodies(engine.world);
-
     // ❌ 被压着
     const covered = bodies.some(b =>
       b !== gift &&
@@ -132,9 +129,9 @@ export default function App() {
     return true;
   };
 
-  /* ======================================================
-     ✅ Start 游戏
-  ====================================================== */
+  // =========================
+  // ✅ Start 游戏
+  // =========================
   const startGame = () => {
     setGameState('falling');
     setGiftBody(null);
@@ -175,9 +172,9 @@ export default function App() {
     }, 100);
   };
 
-  /* ======================================================
-     ✅ 每帧检测 Gift 状态
-  ====================================================== */
+  // =========================
+  // ✅ 每帧检测 Gift 状态
+  // =========================
   useEffect(() => {
     if (!engineRef.current || !giftBody || gameState !== 'playing') {
       setGiftReady(false);
@@ -190,19 +187,28 @@ export default function App() {
     return () => Events.off(engine, 'afterUpdate', update);
   }, [giftBody, gameState]);
 
-  /* ======================================================
-     ✅ 点击 Gift（只一次，防误触）
-  ====================================================== */
+  // =========================
+  // ✅ 点击 Gift（一次，支持手机）
+  // =========================
   useEffect(() => {
-    if (!giftBody || !giftReady || gameState !== 'playing') return;
-    const canvas = sceneRef.current.querySelector('canvas');
+    const canvas = sceneRef.current?.querySelector('canvas');
+    if (!canvas || !giftBody) return;
 
-    const onClick = e => {
+    const handleClick = (e) => {
+      if (!giftReady || gameState !== 'playing') return;
+
+      let x, y;
+      if (e.touches) {
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
+      } else {
+        x = e.clientX;
+        y = e.clientY;
+      }
+
       const rect = canvas.getBoundingClientRect();
-      const pos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+      const pos = { x: x - rect.left, y: y - rect.top };
+
       if (Vector.magnitude(Vector.sub(giftBody.position, pos)) < GIFT_RADIUS) {
         setModalMessage(getRandomMessage());
         setGameState('finished');
@@ -210,13 +216,13 @@ export default function App() {
       }
     };
 
-    canvas.addEventListener('click', onClick);
-    return () => canvas.removeEventListener('click', onClick);
+    canvas.addEventListener('pointerdown', handleClick);
+    return () => canvas.removeEventListener('pointerdown', handleClick);
   }, [giftBody, giftReady, gameState]);
 
-  /* ======================================================
-     ✅ Render
-  ====================================================== */
+  // =========================
+  // ✅ Render
+  // =========================
   return (
     <div className="xmas-app-container">
       <div ref={sceneRef} className="matter-scene" />

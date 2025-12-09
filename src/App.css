@@ -56,7 +56,13 @@ body {
   pointer-events: none;
   animation: glowPulse 1.2s infinite alternate;
   z-index: 40;
+    box-shadow: 0 0 15px 8px #ffe600, 0 0 30px 15px #ffec33;
+  border-radius: 50%;
 }
+
+
+
+
 
 @keyframes glowPulse {
   from {
