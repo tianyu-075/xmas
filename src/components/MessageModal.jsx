@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './MessageModal.css';
 
 const MessageModal = ({ message, onClose }) => {

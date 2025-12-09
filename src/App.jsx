@@ -25,7 +25,7 @@ const W = window.innerWidth;
 const H = window.innerHeight;
 const GIFT_RADIUS = 40;
 const EMOJI_RADIUS = 20;
-const STOP_EPS = 0.25; // ✅ “基本静止”阈值
+const STOP_EPS = 0.25;
 
 export default function App() {
   const sceneRef = useRef(null);

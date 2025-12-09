@@ -1,4 +1,3 @@
-// src/utils/randomMessage.js
 
 const messages = [
   "🎄 Merry Christmas! May your heart be warm, your days be bright, and your season filled with joy ✨",
